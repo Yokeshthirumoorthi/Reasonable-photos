@@ -1,0 +1,39 @@
+{
+  "name": "kassy-grocery",
+  "reason": {
+    "react-jsx": 3
+  },
+  "bsc-flags": [
+    "-open Belt",
+    "-bs-super-errors"
+  ],
+  "bs-dependencies": [
+    "reason-react",
+    "reason-react-native",
+    "reason-expo"
+  ],
+  "bs-dev-dependencies": [
+    "@glennsl/bs-jest"
+  ],
+  "ppx-flags": [],
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    },
+    {
+      "dir": "__tests__",
+      "type": "dev"
+    }
+  ],
+  "warnings": {
+    "number": "+A-44-40-102-4-48-42",
+    "error": "-44+41"
+  },
+  "suffix": ".bs.js",
+  "refmt": 3,
+  "package-specs": {
+    "module": "commonjs",
+    "in-source": true
+  }
+}

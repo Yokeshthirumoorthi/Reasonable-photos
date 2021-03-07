@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "reasonable-photos",
+    "slug": "reasonable-photos",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#E47237"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.kaasy.grocery",
+      "versionCode": 1,
+      "icon": "./assets/kaasy.png",
+      "permissions": [
+        "CAMERA",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ],
+      "config": {
+        "branch": {
+          "apiKey": "key_live_ojFmLHQJ4jvqTolGary5wpeatCoNEzdb"
+        }
+      }
+    }
+  }
+}
