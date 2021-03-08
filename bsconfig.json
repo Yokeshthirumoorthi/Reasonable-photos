@@ -12,7 +12,8 @@
     "reason-react-native",
     "reason-expo",
     "reason-future",
-    "decco"
+    "decco",
+    "bs-axios"
   ],
   "bs-dev-dependencies": [
     "@glennsl/bs-jest"

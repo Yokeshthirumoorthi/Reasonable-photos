@@ -17,6 +17,7 @@
     "updateSnapshots": "jest -u --coverage=false"
   },
   "dependencies": {
+    "bs-axios": "^0.0.43",
     "decco": "^1.3.0",
     "expo": "^38.0.0",
     "expo-linear-gradient": "^8.2.1",
