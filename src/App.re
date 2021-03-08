@@ -18,6 +18,9 @@ let styles =
 let app = () => {
   <>
     <StatusBar barStyle=`darkContent />
-    <View style=styles##container> <SampleComponent /> </View>
+    <View style=styles##container>
+      <SampleComponent />
+      <AuthComponent />
+    </View>
   </>;
 };

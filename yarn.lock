@@ -7977,6 +7977,11 @@ reason-expo@^34.4.1:
   resolved "https://registry.yarnpkg.com/reason-expo/-/reason-expo-34.4.1.tgz#8981a5dcb36f67119385847172037dc68ec0cd64"
   integrity sha512-dyYSbb1o58e/V2MTNCBZGfI9geH9OGLo3BDKw5xDFc6l6vvbqe3JNerzzTDLwA8q68WbvyvFHy+UvLEwQTqiDg==
 
+reason-future@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/reason-future/-/reason-future-2.6.0.tgz#089a6ec59386d3f3eb3cebdc63515ac9499ee715"
+  integrity sha512-wrXTAIGQed+Simhqc9X5PEjvBPhmPmxYImawNrDFGEt9woF/NY04Ny2BpiQk18e72QZMnOLdfPqCOdeT5egTAg==
+
 reason-react-native@0.62.3:
   version "0.62.3"
   resolved "https://registry.yarnpkg.com/reason-react-native/-/reason-react-native-0.62.3.tgz#a2653e735b5a006c7efcb20dcdf0e2ebe922cf8f"

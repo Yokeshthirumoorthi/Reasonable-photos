@@ -24,6 +24,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
     "react-native-web": "^0.11.7",
     "reason-expo": "^34.4.1",
+    "reason-future": "^2.6.0",
     "reason-react": "0.9.0",
     "reason-react-native": "0.62.3"
   },

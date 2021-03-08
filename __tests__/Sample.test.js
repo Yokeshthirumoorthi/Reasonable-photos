@@ -6,6 +6,6 @@ import { app as App } from '../src/App.bs.js';
 describe('<App />', () => {
   it('has 2 children', () => {
     const tree = renderer.create(<App />).toJSON();
-    expect(tree.children.length).toBe(2);
+    expect(tree.children.length).toBe(3);
   });
 });
