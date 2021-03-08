@@ -16,11 +16,13 @@ let styles =
 
 [@react.component]
 let app = () => {
-  <>
+  let appSettingsContextValue = AppSettings.useSettings();
+
+  <AppSettings.ContextProvider value=appSettingsContextValue>
     <StatusBar barStyle=`darkContent />
     <View style=styles##container>
       <SampleComponent />
       <AuthComponent />
     </View>
-  </>;
+  </AppSettings.ContextProvider>;
 };

@@ -1,31 +1,19 @@
-type username = string;
-type password = string;
-type email = string;
-type firstname = string;
-type lastname = string;
-type token = option(string);
-
-// Loing query response object structure
-type auth = {
-  access: token,
-  refresh: token,
-  errors: option(string),
-};
-
 // Possible states for login model
 type t_login =
   | NOT_LOGGED_IN
   | LOGIN_IN_PROGRESS
-  | LOGIN_FULFILLED(auth)
-  | LOGIN_REJECTED(auth);
+  | LOGIN_FULFILLED(Session.t)
+  | LOGIN_REJECTED(Session.t);
 
 module type AuthApi = {
-  let login: (username, password) => Future.t(Result.t(auth, auth));
+  let login:
+    (Session.username, Session.password) =>
+    Future.t(Result.t(Session.t, Session.t));
 };
 
 module AuthApi = {
-  let login = (username, password) => {
-    let auth: auth = {
+  let login = (username: Session.username, password: Session.password) => {
+    let auth: Session.t = {
       access: Some("abc"),
       refresh: Some("bcd"),
       errors: None,
@@ -35,7 +23,7 @@ module AuthApi = {
   };
 };
 
-module AuthService = (AuthApi: AuthApi) => {
+module AuthHook = (AuthApi: AuthApi) => {
   // Custom React hook for login
   let useLogin = _ => {
     let (state, dispatch) = React.useState(() => NOT_LOGGED_IN);
@@ -54,4 +42,4 @@ module AuthService = (AuthApi: AuthApi) => {
   };
 };
 
-module LoginService = AuthService(AuthApi);
+module LoginHook = AuthHook(AuthApi);

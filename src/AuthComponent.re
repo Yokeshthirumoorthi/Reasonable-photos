@@ -35,11 +35,17 @@ module LinearGradientButton = {
 
 [@react.component]
 let make = () => {
-  let (login, _) = AuthModel.LoginService.useLogin();
+  let (settings, setSettings) = React.useContext(AppSettings.context);
+  let (login, _) = AuthModel.LoginHook.useLogin();
 
   let onLoginPress = _ =>
     login("a", "b")
-    ->Future.tapOk(result => Js.log(result))
+    ->Future.tapOk(result => {
+        Js.log(result);
+        setSettings(_settings =>
+          {...settings, lastUpdated: Js.Date.now(), auth: result}
+        );
+      })
     ->Future.tapError(_err =>
         Alert.alert(
           ~title="Ooops, something bad happened",

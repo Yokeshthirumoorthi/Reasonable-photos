@@ -26,7 +26,8 @@
     "reason-expo": "^34.4.1",
     "reason-future": "^2.6.0",
     "reason-react": "0.9.0",
-    "reason-react-native": "0.62.3"
+    "reason-react-native": "0.62.3",
+    "@glennsl/bs-json": "^5.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

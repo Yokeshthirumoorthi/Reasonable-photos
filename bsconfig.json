@@ -11,7 +11,8 @@
     "reason-react",
     "reason-react-native",
     "reason-expo",
-    "reason-future"
+    "reason-future",
+    "@glennsl/bs-json"
   ],
   "bs-dev-dependencies": [
     "@glennsl/bs-jest"

@@ -3,7 +3,7 @@ open Expect;
 
 describe("Authentication", () => {
   testAsync("Login", finish => {
-    let auth: AuthModel.auth = {
+    let auth: Session.t = {
       access: Some("abc"),
       refresh: Some("bcd"),
       errors: None,
