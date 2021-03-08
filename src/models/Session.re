@@ -1,11 +1,14 @@
 type username = string;
 type password = string;
 type email = string;
+[@decco]
 type firstname = string;
 type lastname = string;
+[@decco]
 type token = option(string);
 
-// Loing query response object structure
+// Login query's response object structure
+[@decco]
 type t = {
   access: token,
   refresh: token,
@@ -20,17 +23,10 @@ let make = (access, refresh) => {
 
 let default = {access: None, refresh: None, errors: None};
 
-module Decode = {
-  open Json.Decode;
-
-  let fromJSONString = (json): t => {
-    access: json |> optional(field("access", string)),
-    refresh: json |> optional(field("refresh", string)),
-    errors: json |> optional(field("errors", string)),
-  };
-};
+let decode = json => t_decode(json)->Belt.Result.getExn;
 
 module User = {
+  [@decco]
   type t = {
     id: int,
     firstname,
@@ -40,12 +36,5 @@ module User = {
 
   let default = {id: 0, firstname: ""};
 
-  module Decode = {
-    open Json.Decode;
-
-    let fromJSONString = (json): t => {
-      id: json |> field("id", int),
-      firstname: json |> field("firstname", string),
-    };
-  };
+  let decode = json => t_decode(json)->Belt.Result.getExn;
 };

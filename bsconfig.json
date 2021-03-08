@@ -12,12 +12,14 @@
     "reason-react-native",
     "reason-expo",
     "reason-future",
-    "@glennsl/bs-json"
+    "decco"
   ],
   "bs-dev-dependencies": [
     "@glennsl/bs-jest"
   ],
-  "ppx-flags": [],
+  "ppx-flags": [
+    "decco/ppx"
+  ],
   "sources": [
     {
       "dir": "src",

@@ -1,3 +1,4 @@
+[@decco]
 type t = {
   auth: Session.t,
   user: Session.User.t,
@@ -11,18 +12,12 @@ let defaultSettings = {
 };
 
 let decodeJsonSettingsOrRaise = (json: Js.Json.t): t =>
-  Json.Decode.{
-    auth: json |> field("auth", Session.Decode.fromJSONString),
-    user: json |> field("user", Session.User.Decode.fromJSONString),
-    lastUpdated: json |> field("lastUpdated", Json.Decode.float),
-  };
+  t_decode(json)->Belt.Result.getExn;
 
 let decodeJsonSettings = (json: Js.Json.t): Future.t(Result.t(t, string)) => {
   (
     try(Ok(json->decodeJsonSettingsOrRaise)) {
-    | Json.Decode.DecodeError(_exn) =>
-      Js.log(_exn);
-      Error("Ooops! Something went wrong when loading settings");
+    | _ => Error("Ooops! Something went wrong when loading settings")
     }
   )
   ->Result.map(settings =>
@@ -48,9 +43,8 @@ let getSettings = () => {
       res
       ->Js.Null.toOption
       ->Option.map(jsonString =>
-          try(jsonString->Json.parseOrRaise->decodeJsonSettings) {
-          | Json.ParseError(_) =>
-            Future.value(Result.Error("Unable to parse json settings"))
+          try(jsonString->Js.Json.parseExn->decodeJsonSettings) {
+          | _ => Future.value(Result.Error("Unable to parse json settings"))
           }
         )
       ->Option.getWithDefault(Future.value(Ok(defaultSettings)))
@@ -83,12 +77,6 @@ let useSettings = () => {
             ReactNative.AsyncStorage.setItem(storageKey, stringifiedSettings)
           )
         ->ignore;
-        // if (ReactNative.Global.__DEV__) {
-        //   Js.log2(
-        //     "Settings",
-        //     settings->Obj.magic->Js.Json.stringifyWithSpace(2),
-        //   );
-        // };
       };
       None;
     },
