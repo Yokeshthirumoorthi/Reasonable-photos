@@ -5,13 +5,13 @@ type t_login =
   | LOGIN_FULFILLED(Session.t)
   | LOGIN_REJECTED(Session.t);
 
-module type AuthApi = {
+module type AuthProvider = {
   let login:
     (Session.username, Session.password) =>
     Future.t(Result.t(Session.t, Session.t));
 };
 
-module AuthApi = {
+module OwnPhotosAuthProvider: AuthProvider = {
   let login = (username: Session.username, password: Session.password) => {
     let auth: Session.t = {
       access: Some("abc"),
@@ -23,7 +23,7 @@ module AuthApi = {
   };
 };
 
-module AuthHook = (AuthApi: AuthApi) => {
+module AuthHook = (AuthProvider: AuthProvider) => {
   // Custom React hook for login
   let useLogin = _ => {
     let (state, dispatch) = React.useState(() => NOT_LOGGED_IN);
@@ -33,7 +33,7 @@ module AuthHook = (AuthApi: AuthApi) => {
 
     let login = (username, password) => {
       dispatch(_ => LOGIN_IN_PROGRESS);
-      AuthApi.login(username, password)
+      AuthProvider.login(username, password)
       ->Future.tapOk(onLoginSuccess)
       ->Future.tapError(onLoginFailure);
     };
@@ -42,4 +42,4 @@ module AuthHook = (AuthApi: AuthApi) => {
   };
 };
 
-module LoginHook = AuthHook(AuthApi);
+module LoginHook = AuthHook(OwnPhotosAuthProvider);

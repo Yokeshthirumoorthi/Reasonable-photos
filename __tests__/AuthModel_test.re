@@ -9,7 +9,7 @@ describe("Authentication", () => {
       errors: None,
     };
 
-    AuthModel.AuthApi.login("a", "b")
+    AuthModel.OwnPhotosAuthProvider.login("a", "b")
     ->Future.tapOk(result => result |> expect |> toEqual(auth) |> finish)
     ->Future.tapError(_err => Js.log2("Login Test has failed", auth))
     ->ignore;
