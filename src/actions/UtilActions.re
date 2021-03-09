@@ -1,0 +1,23 @@
+// let fetchJobList = (page,page_size=10) => {Ok()->Future.value;}
+ // let deleteJob = (job_id,page=1,page_size=10) => {Ok()->Future.value;}
+ // let setSiteSettings = (siteSettings) => {Ok()->Future.value;}
+ // let fetchSiteSettings = () => {Ok()->Future.value;}
+ // let fetchUserList = () => {Ok()->Future.value;}
+ // let fetchDirectoryTree = () => {Ok()->Future.value;}
+ // let fetchNextcloudDirectoryTree = (path) => {Ok()->Future.value;}
+ // let updateUser = (user) => {Ok()->Future.value;}
+ // let manageUpdateUser = (user) => {Ok()->Future.value;}
+ // let fetchWorkerAvailability = (prevRunningJob) => {Ok()->Future.value;}
+ // let generateEventAlbums = () => {Ok()->Future.value;}
+ // let generateEventAlbumTitles = () => {Ok()->Future.value;}
+ // let fetchExampleSearchTerms = () => {Ok()->Future.value;}
+ // let fetchLocationSunburst = () => {Ok()->Future.value;}
+ // let fetchLocationTimeline = () => {Ok()->Future.value;}
+ // let fetchCountStats = () => {Ok()->Future.value;}
+ // let fetchPhotoScanStatus = () => {Ok()->Future.value;}
+ // let fetchAutoAlbumProcessingStatus = () => {Ok()->Future.value;}
+ // let fetchLocationClusters = () => {Ok()->Future.value;}
+ // let fetchPhotoCountryCounts = () => {Ok()->Future.value;}
+ // let fetchPhotoMonthCounts = () => {Ok()->Future.value;}
+ // let fetchWordCloud = () => {Ok()->Future.value;}
+ /* let rebuildSimilarityIndex = () => {Ok()->Future.value;*/
