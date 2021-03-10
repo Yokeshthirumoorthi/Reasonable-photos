@@ -1,39 +1,26 @@
 // Possible states for login model
-type t_login =
+type state =
   | NOT_LOGGED_IN
   | LOGIN_IN_PROGRESS
   | LOGIN_FULFILLED(Session.t)
-  | LOGIN_REJECTED(Session.t);
+  | LOGIN_REJECTED;
 
-module type AuthProvider = {
-  let login:
-    (Session.username, Session.password) =>
-    Future.t(Result.t(Session.t, Session.t));
-};
-
-module OwnPhotosAuthProvider: AuthProvider = {
-  let login = (username: Session.username, password: Session.password) => {
-    let auth: Session.t = {
-      access: Some("abc"),
-      refresh: Some("bcd"),
-      errors: None,
-    };
-
-    Ok(auth)->Future.value;
-  };
-};
-
-module AuthHook = (AuthProvider: AuthProvider) => {
+module AuthHook =
+       (
+         AuthProvider: AuthApi.ProviderInterface,
+         ResponseHandler: AuthApi.ResponseHandlerInterface,
+       ) => {
   // Custom React hook for login
   let useLogin = _ => {
     let (state, dispatch) = React.useState(() => NOT_LOGGED_IN);
 
     let onLoginSuccess = auth => dispatch(_ => LOGIN_FULFILLED(auth));
-    let onLoginFailure = auth => dispatch(_ => LOGIN_REJECTED(auth));
+    let onLoginFailure = _ => dispatch(_ => LOGIN_REJECTED);
 
     let login = (username, password) => {
       dispatch(_ => LOGIN_IN_PROGRESS);
       AuthProvider.login(username, password)
+      ->Future.mapOk(ResponseHandler.transformLoginResponse)
       ->Future.tapOk(onLoginSuccess)
       ->Future.tapError(onLoginFailure);
     };
@@ -42,4 +29,4 @@ module AuthHook = (AuthProvider: AuthProvider) => {
   };
 };
 
-module LoginHook = AuthHook(OwnPhotosAuthProvider);
+module LoginHook = AuthHook(AuthApi.Provider, AuthApi.ResponseHandler);

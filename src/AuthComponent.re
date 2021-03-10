@@ -39,7 +39,7 @@ let make = () => {
   let (login, _) = AuthModel.LoginHook.useLogin();
 
   let onLoginPress = _ =>
-    login("a", "b")
+    login("admin", "admin")
     ->Future.tapOk(result => {
         Js.log(result);
         setSettings(_settings =>

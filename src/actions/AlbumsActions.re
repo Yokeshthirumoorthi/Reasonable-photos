@@ -1,7 +1,6 @@
-let fetchThingAlbumsList = () => {
-  Ok(FetchThingAlbumsListResponse.response)->Future.value;
-};
-
+// let fetchThingAlbumsList = () => {
+//   Ok(FetchThingAlbumsListResponse.response)->Future.value;
+// };
 // let fetchThingAlbum = (album_id) => {Ok()->Future.value}
 // let fetchUserAlbumsList = () => {Ok()->Future.value}
 // let fetchUserAlbum = (album_id) => {Ok()->Future.value}
