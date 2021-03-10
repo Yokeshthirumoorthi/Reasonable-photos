@@ -55,7 +55,7 @@ module ResponseHandler = {
   let transformLoginResponse = json => LoginResponse.decode(json);
 
   let extractJwtDetails = (session: LoginResponse.t) => {
-    session.access->Session.Access_Token.setData;
-    session.refresh->Session.Refresh_Token.setData;
+    session.access->Auth.Access_Token.setData;
+    session.refresh->Auth.Refresh_Token.setData;
   };
 };
