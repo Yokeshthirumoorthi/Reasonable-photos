@@ -21,6 +21,7 @@ module AuthHook =
       dispatch(_ => LOGIN_IN_PROGRESS);
       AuthProvider.login(username, password)
       ->Future.mapOk(ResponseHandler.transformLoginResponse)
+      ->Future.tapOk(ResponseHandler.extractJwtDetails)
       ->Future.tapOk(onLoginSuccess)
       ->Future.tapError(onLoginFailure);
     };

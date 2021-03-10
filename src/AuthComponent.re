@@ -40,12 +40,7 @@ let make = () => {
 
   let onLoginPress = _ =>
     login("admin", "admin")
-    ->Future.tapOk(result => {
-        Js.log(result);
-        setSettings(_settings =>
-          {...settings, lastUpdated: Js.Date.now(), auth: result}
-        );
-      })
+    ->Future.tapOk(_result => {Js.log(Session.Access_Token.getData())})
     ->Future.tapError(_err =>
         Alert.alert(
           ~title="Ooops, something bad happened",

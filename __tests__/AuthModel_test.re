@@ -1,6 +1,12 @@
 open Jest;
 open Expect;
 
+describe("Expect", () => {
+  test("toBe", () =>
+    expect(1 + 2) |> toBe(3)
+  )
+});
+
 // describe("Authentication", () => {
 //   testAsync("Login", finish => {
 //     let auth: Session.t = {

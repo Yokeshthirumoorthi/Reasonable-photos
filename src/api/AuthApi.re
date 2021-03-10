@@ -28,8 +28,9 @@ module Provider = {
   };
 
   let refreshAccessToken = (_token: string) => {
-    let auth: Session.t = {access: Some("abd"), refresh: None, errors: None};
-    Ok(auth)->Future.value;
+    // let auth: Session.t = {access: Some("abd"), refresh: None, errors: None};
+    Ok()
+    ->Future.value;
   };
 
   let logout = () => {
@@ -39,8 +40,19 @@ module Provider = {
 
 module type ResponseHandlerInterface = {
   let transformLoginResponse: Js.Json.t => Session.t;
+  let extractJwtDetails: Session.t => unit;
 };
 
 module ResponseHandler = {
+  // let jwtTokenDecoder = (token: string) => jwtDecoder(token);
   let transformLoginResponse = json => Session.decode(json);
+  let extractJwtDetails = (session: Session.t) => {
+    let accessTokenString = Option.getWithDefault(session.access, "");
+    let accessTokenObj = accessTokenString->Session.Token.decode;
+    accessTokenObj->Session.Access_Token.setData;
+
+    let refreshTokenString = Option.getWithDefault(session.refresh, "");
+    let refreshTokenObj = refreshTokenString->Session.Token.decode;
+    refreshTokenObj->Session.Refresh_Token.setData;
+  };
 };
