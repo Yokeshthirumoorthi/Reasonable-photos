@@ -30,4 +30,5 @@ module AuthHook =
   };
 };
 
-module LoginHook = AuthHook(AuthApi.Provider, AuthApi.ResponseHandler);
+module LoginHook =
+  AuthHook((AuthApi.Make(Server.Make)), AuthApi.ResponseHandler);

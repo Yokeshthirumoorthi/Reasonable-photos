@@ -2,7 +2,7 @@ module type ProviderInterface = {
   let login: (string, string) => Future.t(Result.t(Js.Json.t, unit));
 };
 
-module Provider = {
+module Make = (Server: Server.Interface) => {
   let signup =
       (
         _username: string,

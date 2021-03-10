@@ -35,7 +35,6 @@ module LinearGradientButton = {
 
 [@react.component]
 let make = () => {
-  let (settings, setSettings) = React.useContext(AppSettings.context);
   let (login, _) = AuthModel.LoginHook.useLogin();
 
   let onLoginPress = _ =>
