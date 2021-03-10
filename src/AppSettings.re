@@ -1,15 +1,7 @@
 [@decco]
-type t = {
-  auth: Session.t,
-  user: Session.User.t,
-  lastUpdated: float,
-};
+type t = {lastUpdated: float};
 
-let defaultSettings = {
-  auth: Session.default,
-  user: Session.User.default,
-  lastUpdated: 0.,
-};
+let defaultSettings = {lastUpdated: 0.};
 
 let decodeJsonSettingsOrRaise = (json: Js.Json.t): t =>
   t_decode(json)->Belt.Result.getExn;
@@ -20,13 +12,7 @@ let decodeJsonSettings = (json: Js.Json.t): Future.t(Result.t(t, string)) => {
     | _ => Error("Ooops! Something went wrong when loading settings")
     }
   )
-  ->Result.map(settings =>
-      {
-        auth: settings.auth,
-        lastUpdated: settings.lastUpdated,
-        user: settings.user,
-      }
-    )
+  ->Result.map(settings => {lastUpdated: settings.lastUpdated})
   ->Future.value;
 };
 

@@ -1,7 +1,5 @@
 module type ProviderInterface = {
-  let login:
-    (Session.username, Session.password) =>
-    Future.t(Result.t(Js.Json.t, unit));
+  let login: (string, string) => Future.t(Result.t(Js.Json.t, unit));
 };
 
 module Provider = {
@@ -17,7 +15,7 @@ module Provider = {
     Ok(response)->Future.value;
   };
 
-  let login = (username: Session.username, password: Session.password) => {
+  let login = (username: string, password: string) => {
     let handleError = error => Js.log(error);
 
     Server.post(
@@ -38,21 +36,26 @@ module Provider = {
   };
 };
 
+module LoginResponse = {
+  [@decco]
+  type t = {
+    access: string,
+    refresh: string,
+  };
+
+  let decode = json => t_decode(json)->Belt.Result.getExn;
+};
+
 module type ResponseHandlerInterface = {
-  let transformLoginResponse: Js.Json.t => Session.t;
-  let extractJwtDetails: Session.t => unit;
+  let transformLoginResponse: Js.Json.t => LoginResponse.t;
+  let extractJwtDetails: LoginResponse.t => unit;
 };
 
 module ResponseHandler = {
-  // let jwtTokenDecoder = (token: string) => jwtDecoder(token);
-  let transformLoginResponse = json => Session.decode(json);
-  let extractJwtDetails = (session: Session.t) => {
-    let accessTokenString = Option.getWithDefault(session.access, "");
-    let accessTokenObj = accessTokenString->Session.Token.decode;
-    accessTokenObj->Session.Access_Token.setData;
+  let transformLoginResponse = json => LoginResponse.decode(json);
 
-    let refreshTokenString = Option.getWithDefault(session.refresh, "");
-    let refreshTokenObj = refreshTokenString->Session.Token.decode;
-    refreshTokenObj->Session.Refresh_Token.setData;
+  let extractJwtDetails = (session: LoginResponse.t) => {
+    session.access->Session.Access_Token.setData;
+    session.refresh->Session.Refresh_Token.setData;
   };
 };

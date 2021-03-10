@@ -2,7 +2,7 @@
 type state =
   | NOT_LOGGED_IN
   | LOGIN_IN_PROGRESS
-  | LOGIN_FULFILLED(Session.t)
+  | LOGIN_FULFILLED
   | LOGIN_REJECTED;
 
 module AuthHook =
@@ -14,7 +14,7 @@ module AuthHook =
   let useLogin = _ => {
     let (state, dispatch) = React.useState(() => NOT_LOGGED_IN);
 
-    let onLoginSuccess = auth => dispatch(_ => LOGIN_FULFILLED(auth));
+    let onLoginSuccess = _ => dispatch(_ => LOGIN_FULFILLED);
     let onLoginFailure = _ => dispatch(_ => LOGIN_REJECTED);
 
     let login = (username, password) => {
