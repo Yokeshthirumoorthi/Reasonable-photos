@@ -2,7 +2,9 @@ external promiseErrorToJsObj: Js.Promise.error => Js.t('a) = "%identity";
 /* Using a custom error */
 exception Oh_no(string);
 
-module type Interface = {let post: (string, Js.t('b)) => Js.Promise.t('a);};
+module type Interface = {
+  let post: (string, Js.t('b)) => Js.Promise.t(Js.Json.t);
+};
 
 module Make: Interface = {
   let post = (apipath, payload) =>

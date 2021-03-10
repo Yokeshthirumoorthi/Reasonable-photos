@@ -39,7 +39,10 @@ let make = () => {
 
   let onLoginPress = _ =>
     login("admin", "admin")
-    ->Future.tapOk(_result => {Js.log(Auth.Access_Token.getData())})
+    ->Future.tapOk(_result => {
+        Js.log(Auth.Access_Token.getData());
+        Js.log(Auth.Refresh_Token.getData());
+      })
     ->Future.tapError(_err =>
         Alert.alert(
           ~title="Ooops, something bad happened",

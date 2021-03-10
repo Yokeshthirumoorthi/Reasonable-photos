@@ -31,13 +31,17 @@ module Token = {
     tokenString->jwtDecoder->t_decode->Belt.Result.getExn;
 };
 
-module TokenData = {
+module Access_Token = {
   [@bs.deriving abstract]
   type t = {mutable data: Token.t};
   let jwt = t(~data=Token.default);
   let setData = tokenString => jwt->dataSet(tokenString->Token.decode);
   let getData = _ => jwt->dataGet;
 };
-
-module Access_Token = TokenData;
-module Refresh_Token = TokenData;
+module Refresh_Token = {
+  [@bs.deriving abstract]
+  type t = {mutable data: Token.t};
+  let jwt = t(~data=Token.default);
+  let setData = tokenString => jwt->dataSet(tokenString->Token.decode);
+  let getData = _ => jwt->dataGet;
+};
