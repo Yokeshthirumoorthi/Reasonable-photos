@@ -1,41 +1,3 @@
-module type ProviderInterface = {
-  let login: (string, string) => Future.t(Result.t(Js.Json.t, unit));
-};
-
-module Make = (Server: Server.Interface) => {
-  let signup =
-      (
-        _username: string,
-        _password: string,
-        _email: string,
-        _firstname: string,
-        _lastname: string,
-      ) => {
-    let response = {}; // TODO: add response object
-    Ok(response)->Future.value;
-  };
-
-  let login = (username: string, password: string) => {
-    let handleError = error => Js.log(error);
-
-    Server.post(
-      "/auth/token/obtain/",
-      {"username": username, "password": password},
-    )
-    ->FutureJs.fromPromise(handleError);
-  };
-
-  let refreshAccessToken = (_token: string) => {
-    // let auth: Session.t = {access: Some("abd"), refresh: None, errors: None};
-    Ok()
-    ->Future.value;
-  };
-
-  let logout = () => {
-    Ok()->Future.value;
-  };
-};
-
 module LoginResponse = {
   [@decco]
   type t = {
@@ -57,5 +19,46 @@ module ResponseHandler = {
   let extractJwtDetails = (session: LoginResponse.t) => {
     session.access->Auth.Access_Token.setData;
     session.refresh->Auth.Refresh_Token.setData;
+  };
+};
+
+module type Interface = {
+  let login: (string, string) => Future.t(Result.t(LoginResponse.t, unit));
+};
+
+module Make =
+       (Server: Server.Interface, ResponseHandler: ResponseHandlerInterface) => {
+  let signup =
+      (
+        _username: string,
+        _password: string,
+        _email: string,
+        _firstname: string,
+        _lastname: string,
+      ) => {
+    let response = {}; // TODO: add response object
+    Ok(response)->Future.value;
+  };
+
+  let login = (username: string, password: string) => {
+    let handleError = error => Js.log(error);
+
+    Server.post(
+      "/auth/token/obtain/",
+      {"username": username, "password": password},
+    )
+    ->FutureJs.fromPromise(handleError)
+    ->Future.mapOk(ResponseHandler.transformLoginResponse)
+    ->Future.tapOk(ResponseHandler.extractJwtDetails);
+  };
+
+  let refreshAccessToken = (_token: string) => {
+    // let auth: Session.t = {access: Some("abd"), refresh: None, errors: None};
+    Ok()
+    ->Future.value;
+  };
+
+  let logout = () => {
+    Ok()->Future.value;
   };
 };
