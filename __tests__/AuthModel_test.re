@@ -13,6 +13,13 @@ module TestServer: Server.Interface = {
     | _ => failwith("Invalid Api Path")
     };
   };
+  let get = (apipath: string) => {
+    switch (apipath) {
+    | "/auth/token/obtain/" => Js.Promise.resolve(loginResponse)
+    | "/auth/token/refresh/" => Js.Promise.resolve(refreshTokenResponse)
+    | _ => failwith("Invalid Api Path")
+    };
+  };
 };
 
 module Provider = AuthApi.Make(TestServer, AuthApi.ResponseHandler);

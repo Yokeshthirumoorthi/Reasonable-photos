@@ -37,6 +37,8 @@ module LinearGradientButton = {
 let make = () => {
   let (login, _) = AuthModel.LoginHook.useLogin();
   let (refreshToken, _) = AuthModel.LoginHook.useRefreshToken();
+  let (fetchUserSelfDetails, _) =
+    UserModel.FetchUserHook.useFetchUserSelfDetails();
 
   let onLoginPress = _ =>
     login("admin", "admin")
@@ -70,6 +72,19 @@ let make = () => {
       )
     ->ignore;
 
+  let onFetchUserDetails = _ =>
+    fetchUserSelfDetails(Auth.Refresh_Token.getData().user_id)
+    ->Future.tapOk(result => {Js.log(result)})
+    ->Future.tapError(_err =>
+        Alert.alert(
+          ~title="Ooops, something bad happened",
+          ~message=
+            "Please report us this error with informations about your device so we can improve Reasonable Photos.",
+          (),
+        )
+      )
+    ->ignore;
+
   <>
     <LinearGradientButton
       onPress=onLoginPress
@@ -80,6 +95,11 @@ let make = () => {
       onPress=onRefreshToken
       text="Refresh"
       testID="refresh-button"
+    />
+    <LinearGradientButton
+      onPress=onFetchUserDetails
+      text="Fetch User"
+      testID="user-button"
     />
   </>;
 };
