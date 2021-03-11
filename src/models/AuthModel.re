@@ -3,7 +3,11 @@ type state =
   | NOT_LOGGED_IN
   | LOGIN_IN_PROGRESS
   | LOGIN_FULFILLED
-  | LOGIN_REJECTED;
+  | LOGIN_REJECTED
+  | TOKEN_NOT_REFRESHED
+  | REFRESH_TOKEN_IN_PROGRESS
+  | REFRESH_TOKEN_FULFILLED
+  | REFRESH_TOKEN_REJECTED;
 
 module AuthHook = (AuthProvider: AuthApi.Interface) => {
   // Custom React hook for login
@@ -21,6 +25,22 @@ module AuthHook = (AuthProvider: AuthApi.Interface) => {
     };
 
     (login, state);
+  };
+
+  let useRefreshToken = _ => {
+    let (state, dispatch) = React.useState(() => TOKEN_NOT_REFRESHED);
+
+    let onLoginSuccess = _ => dispatch(_ => REFRESH_TOKEN_FULFILLED);
+    let onLoginFailure = _ => dispatch(_ => REFRESH_TOKEN_REJECTED);
+
+    let refreshToken = refresh_token => {
+      dispatch(_ => REFRESH_TOKEN_IN_PROGRESS);
+      AuthProvider.refreshAccessToken(refresh_token)
+      ->Future.tapOk(onLoginSuccess)
+      ->Future.tapError(onLoginFailure);
+    };
+
+    (refreshToken, state);
   };
 };
 

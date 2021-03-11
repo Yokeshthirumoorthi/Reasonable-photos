@@ -33,15 +33,25 @@ module Token = {
 
 module Access_Token = {
   [@bs.deriving abstract]
-  type t = {mutable data: Token.t};
-  let jwt = t(~data=Token.default);
+  type t = {
+    mutable token: string,
+    mutable data: Token.t,
+  };
+  let jwt = t(~token="", ~data=Token.default);
+  let setToken = jwt->tokenSet;
+  let getToken = _ => jwt->tokenGet;
   let setData = tokenString => jwt->dataSet(tokenString->Token.decode);
   let getData = _ => jwt->dataGet;
 };
 module Refresh_Token = {
   [@bs.deriving abstract]
-  type t = {mutable data: Token.t};
-  let jwt = t(~data=Token.default);
+  type t = {
+    mutable token: string,
+    mutable data: Token.t,
+  };
+  let jwt = t(~token="", ~data=Token.default);
+  let setToken = jwt->tokenSet;
+  let getToken = _ => jwt->tokenGet;
   let setData = tokenString => jwt->dataSet(tokenString->Token.decode);
   let getData = _ => jwt->dataGet;
 };

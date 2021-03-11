@@ -36,9 +36,26 @@ module LinearGradientButton = {
 [@react.component]
 let make = () => {
   let (login, _) = AuthModel.LoginHook.useLogin();
+  let (refreshToken, _) = AuthModel.LoginHook.useRefreshToken();
 
   let onLoginPress = _ =>
     login("admin", "admin")
+    ->Future.tapOk(_result => {
+        Js.log(Auth.Access_Token.getData());
+        Js.log(Auth.Refresh_Token.getData());
+      })
+    ->Future.tapError(_err =>
+        Alert.alert(
+          ~title="Ooops, something bad happened",
+          ~message=
+            "Please report us this error with informations about your device so we can improve Reasonable Photos.",
+          (),
+        )
+      )
+    ->ignore;
+
+  let onRefreshToken = _ =>
+    refreshToken(Auth.Refresh_Token.getToken())
     ->Future.tapOk(_result => {
         Js.log(Auth.Access_Token.getData());
         Js.log(Auth.Refresh_Token.getData());
@@ -58,6 +75,11 @@ let make = () => {
       onPress=onLoginPress
       text="Login"
       testID="toggle-button"
+    />
+    <LinearGradientButton
+      onPress=onRefreshToken
+      text="Refresh"
+      testID="refresh-button"
     />
   </>;
 };
