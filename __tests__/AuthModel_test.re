@@ -1,8 +1,7 @@
 open Jest;
 open Expect;
 
-[@bs.module]
-external loginResponse: Js.Json.t = "../server/data/loginResponse.json";
+[@bs.module] external loginResponse: Js.Json.t = "../data/loginResponse.json";
 
 module TestServer: Server.Interface = {
   let post = (apipath: string, _payload: Js.t('b)) => {
