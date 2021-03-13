@@ -1,3 +1,8 @@
+// Copyright © 2021 Yokesh Thirumoorthi
+// [This program is licensed under the "MIT License"]
+// Please see the file LICENSE in the source
+// distribution of this software for license terms.
+
 external promiseErrorToJsObj: Js.Promise.error => Js.t('a) = "%identity";
 /* Using a custom error */
 exception Oh_no(string);
