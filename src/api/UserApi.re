@@ -7,6 +7,7 @@ module ResponseHandler = {
 
 module Make =
        (Server: Server.Interface, ResponseHandler: UserApiResponseHandler) => {
+  // Get user details using userid
   let fetchUserSelfDetails = (userId: int) => {
     let handleError = error => Js.log(error);
 
