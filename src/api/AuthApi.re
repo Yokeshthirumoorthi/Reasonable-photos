@@ -1,26 +1,5 @@
-module LoginResponse = {
-  [@decco]
-  type t = {
-    access: string,
-    refresh: string,
-  };
-
-  let decode = json => t_decode(json)->Belt.Result.getExn;
-};
-
-module RefreshResponse = {
-  [@decco]
-  type t = {access: string};
-
-  let decode = json => t_decode(json)->Belt.Result.getExn;
-};
-
-module type ResponseHandlerInterface = {
-  let transformLoginResponse: Js.Json.t => LoginResponse.t;
-  let transformRefreshResponse: Js.Json.t => RefreshResponse.t;
-  let extractJwtDetails: LoginResponse.t => unit;
-  let updateJwtDetails: RefreshResponse.t => unit;
-};
+open ApiTypes;
+open ApiInterfaces;
 
 module ResponseHandler = {
   let transformLoginResponse = json => LoginResponse.decode(json);
@@ -38,14 +17,8 @@ module ResponseHandler = {
   };
 };
 
-module type Interface = {
-  let login: (string, string) => Future.t(Result.t(LoginResponse.t, unit));
-  let refreshAccessToken:
-    string => Future.t(Result.t(RefreshResponse.t, unit));
-};
-
 module Make =
-       (Server: Server.Interface, ResponseHandler: ResponseHandlerInterface) => {
+       (Server: Server.Interface, ResponseHandler: AuthApiResponseHandler) => {
   let signup =
       (
         _username: string,

@@ -5,7 +5,7 @@ type state =
   | FETCH_USER_SELF_DETAILS_FULFILLED
   | FETCH_USER_SELF_DETAILS_REJECTED;
 
-module UserHook = (UserProvider: UserApi.Interface) => {
+module UserHook = (UserProvider: ApiInterfaces.UserApi) => {
   // Custom React hook for login
   let useFetchUserSelfDetails = _ => {
     let (state, dispatch) =

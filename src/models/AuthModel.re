@@ -9,7 +9,7 @@ type state =
   | REFRESH_TOKEN_FULFILLED
   | REFRESH_TOKEN_REJECTED;
 
-module AuthHook = (AuthProvider: AuthApi.Interface) => {
+module AuthHook = (AuthProvider: ApiInterfaces.AuthApi) => {
   // Custom React hook for login
   let useLogin = _ => {
     let (state, dispatch) = React.useState(() => NOT_LOGGED_IN);
