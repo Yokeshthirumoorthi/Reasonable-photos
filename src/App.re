@@ -20,9 +20,6 @@ let app = () => {
 
   <AppSettings.ContextProvider value=appSettingsContextValue>
     <StatusBar barStyle=`darkContent />
-    <View style=styles##container>
-      
-      <AuthComponent />
-    </View>
+    <View style=styles##container> <MainScreen /> </View>
   </AppSettings.ContextProvider>;
 };
