@@ -9,7 +9,7 @@ type state =
   | REFRESH_TOKEN_FULFILLED
   | REFRESH_TOKEN_REJECTED;
 
-module AuthHook = (AuthProvider: ApiInterfaces.AuthApi) => {
+module Make = (AuthProvider: ApiInterfaces.AuthApi) => {
   // Custom React hook for login
   let useLogin = _ => {
     let (state, dispatch) = React.useState(() => NOT_LOGGED_IN);
@@ -27,6 +27,7 @@ module AuthHook = (AuthProvider: ApiInterfaces.AuthApi) => {
     (login, state);
   };
 
+  // Custom React hook for Token Refresh
   let useRefreshToken = _ => {
     let (state, dispatch) = React.useState(() => TOKEN_NOT_REFRESHED);
 
@@ -44,5 +45,5 @@ module AuthHook = (AuthProvider: ApiInterfaces.AuthApi) => {
   };
 };
 
-module LoginHook =
-  AuthHook((AuthApi.Make(Server.Make, AuthApi.ResponseHandler)));
+module AuthProvider = AuthApi.Make(Server.Make, AuthApi.ResponseHandler);
+module ReactHook = Make(AuthProvider);

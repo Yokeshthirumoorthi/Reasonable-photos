@@ -1,26 +1,4 @@
-open ApiTypes;
 open ApiInterfaces;
-
-module ResponseHandler = {
-  // Convert the response json to reason record
-  let transformLoginResponse = json => LoginResponse.decode(json);
-  let transformRefreshResponse = json => RefreshResponse.decode(json);
-
-  // Save tokens and its details in a singleton table
-  let extractJwtDetails = (session: LoginResponse.t) => {
-    session.access->Auth.Access_Token.setToken;
-    session.access->Auth.Access_Token.setData;
-    session.refresh->Auth.Refresh_Token.setToken;
-    session.refresh->Auth.Refresh_Token.setData;
-  };
-
-  // Refresh response has the new access token.
-  // Save the new access token details in a singleton table
-  let updateJwtDetails = (session: RefreshResponse.t) => {
-    session.access->Auth.Access_Token.setToken;
-    session.access->Auth.Access_Token.setData;
-  };
-};
 
 module Make =
        (Server: Server.Interface, ResponseHandler: AuthApiResponseHandler) => {
@@ -41,10 +19,7 @@ module Make =
   let login = (username: string, password: string) => {
     let handleError = error => Js.log(error);
 
-    Server.post(
-      "/auth/token/obtain/",
-      {"username": username, "password": password},
-    )
+    Server.post(ApiPath.login, {"username": username, "password": password})
     ->FutureJs.fromPromise(handleError)
     ->Future.mapOk(ResponseHandler.transformLoginResponse)
     ->Future.tapOk(ResponseHandler.extractJwtDetails);
@@ -53,7 +28,7 @@ module Make =
   // Get a new access token using refresh token
   let refreshAccessToken = refresh_token => {
     let handleError = error => Js.log(error);
-    Server.post("/auth/token/refresh/", {"refresh": refresh_token})
+    Server.post(ApiPath.refreshAccessToken, {"refresh": refresh_token})
     ->FutureJs.fromPromise(handleError)
     ->Future.mapOk(ResponseHandler.transformRefreshResponse)
     ->Future.tapOk(ResponseHandler.updateJwtDetails);
@@ -63,5 +38,30 @@ module Make =
   // Clear the values in token tables
   let logout = () => {
     Ok()->Future.value;
+  };
+};
+
+/*****************************************************************
+ * Response handler functions for Api calls
+ ******************************************************************/
+module ResponseHandler = {
+  open ApiTypes;
+  // Convert the response json to reason record
+  let transformLoginResponse = json => LoginResponse.decode(json);
+  let transformRefreshResponse = json => RefreshResponse.decode(json);
+
+  // Save tokens and its details in a singleton table
+  let extractJwtDetails = (session: LoginResponse.t) => {
+    session.access->Auth.Access_Token.setToken;
+    session.access->Auth.Access_Token.setData;
+    session.refresh->Auth.Refresh_Token.setToken;
+    session.refresh->Auth.Refresh_Token.setData;
+  };
+
+  // Refresh response has the new access token.
+  // Save the new access token details in a singleton table
+  let updateJwtDetails = (session: RefreshResponse.t) => {
+    session.access->Auth.Access_Token.setToken;
+    session.access->Auth.Access_Token.setData;
   };
 };

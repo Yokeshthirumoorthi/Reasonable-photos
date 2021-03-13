@@ -43,6 +43,7 @@ module Access_Token = {
   let setData = tokenString => jwt->dataSet(tokenString->Token.decode);
   let getData = _ => jwt->dataGet;
 };
+
 module Refresh_Token = {
   [@bs.deriving abstract]
   type t = {

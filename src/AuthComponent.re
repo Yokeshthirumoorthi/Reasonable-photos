@@ -35,10 +35,10 @@ module LinearGradientButton = {
 
 [@react.component]
 let make = () => {
-  let (login, _) = AuthModel.LoginHook.useLogin();
-  let (refreshToken, _) = AuthModel.LoginHook.useRefreshToken();
+  let (login, _) = AuthModel.ReactHook.useLogin();
+  let (refreshToken, _) = AuthModel.ReactHook.useRefreshToken();
   let (fetchUserSelfDetails, _) =
-    UserModel.FetchUserHook.useFetchUserSelfDetails();
+    UserModel.ReactHook.useFetchUserSelfDetails();
 
   let onLoginPress = _ =>
     login("admin", "admin")
